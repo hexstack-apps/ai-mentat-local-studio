@@ -1,0 +1,133 @@
+{
+  "name": "ai-mentat-local-studio",
+  "version": "0.1.0",
+  "description": "Hexstack Mentat Local Studio \u2014 fully local AI media generation: images, narration, music and video, with an overnight prompt queue",
+  "author": "HexStack",
+  "license": "MIT",
+  "main": "electron-main.bundle.js",
+  "shop_link": "https://hexstack.app/mentat-local-studio/",
+  "itch_io": {
+    "user": "hexstack-app",
+    "game": "mentat-local-studio"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hexstack-apps/ai-mentat-local-studio.git"
+  },
+  "keywords": [
+    "electron",
+    "stable-diffusion",
+    "local-ai",
+    "text-to-video",
+    "text-to-speech",
+    "musicgen",
+    "mentat"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "run": "npm run setup && node sdk/utils/bundle-electron.js && electron electron-main.bundle.js",
+    "build": "node scripts/build-app.js",
+    "check": "npm run build && node scripts/start-built.js",
+    "gui": "node sdk/utils/bundle-electron.js && electron electron-main.bundle.js",
+    "bundle": "node sdk/utils/bundle-electron.js",
+    "setup:list": "node scripts/download-sdcpp.js --list",
+    "download:engines": "node scripts/download-sdcpp.js",
+    "build:mac": "node sdk/utils/bundle-electron.js && electron-builder --mac dmg --universal -c.mac.identity=null",
+    "build:mac:signed": "node sdk/utils/bundle-electron.js && APPLE_KEYCHAIN_PROFILE=CCO-notary electron-builder --mac dmg --universal",
+    "build:mac:store": "node sdk/utils/bundle-electron.js && electron-builder --mac mas",
+    "build:win": "node sdk/utils/bundle-electron.js && electron-builder --win msi",
+    "build:win:store": "node sdk/utils/bundle-electron.js && electron-builder --win msi -c.msi.artifactName=\"mentat-local-studio-${version}_store.msi\"",
+    "build:linux": "node sdk/utils/bundle-electron.js && electron-builder --linux deb",
+    "build:all": "npm run build:mac && npm run build:mac:store && npm run build:win && npm run build:linux",
+    "dist": "npm run build:all",
+    "publish": "node sdk/logic/publish.js --app=mentat-local-studio",
+    "release": "node sdk/logic/release.js",
+    "test:unit": "node --test \"test/test_*.js\"",
+    "test:smoke": "node sdk/utils/bundle-electron.js && electron test/smoke.js",
+    "test": "npm run test:unit && npm run test:ts",
+    "build:ts": "node scripts/build-ts.js",
+    "test:ts": "node scripts/build-ts.js && node --test \".ts-build/*.js\""
+  },
+  "signing": {
+    "appName": "Hexstack Mentat Local Studio",
+    "bundleId": "app.hexstack.mentat-local-studio",
+    "minMacOS": "10.15",
+    "developerIdApplication": "Developer ID Application: Roman Chuvilev (A646WU4GA4)",
+    "notaryProfile": "CCO-notary"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  },
+  "optionalDependencies": {
+    "kokoro-js": "^1.2.1",
+    "node-llama-cpp": "^3.14.1"
+  },
+  "devDependencies": {
+    "electron": "^44.0.0",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2"
+  },
+  "build": {
+    "appId": "app.hexstack.ai-mentat-local-studio",
+    "productName": "ai-mentat-local-studio",
+    "publish": {
+      "provider": "generic",
+      "url": ""
+    },
+    "directories": {
+      "output": "/.hexstack-app/ai-mentat-local-studio"
+    },
+    "artifactName": "mentat-local-studio-${version}.${ext}",
+    "electronVersion": "44.0.0",
+    "npmRebuild": false,
+    "files": [
+      "electron-main.bundle.js",
+      "preload.js",
+      "app.html",
+      "app.css",
+      "update-ui.js",
+      "app.js",
+      "icon.png",
+      "vendor/",
+      "package.json"
+    ],
+    "mac": {
+      "icon": "icon.png",
+      "category": "public.app-category.graphics-design",
+      "identity": "Roman Chuvilev (A646WU4GA4)",
+      "notarize": true,
+      "hardenedRuntime": true,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist",
+      "target": [
+        "dmg"
+      ]
+    },
+    "mas": {
+      "identity": "3rd Party Mac Developer Application: Roman Chuvilev (A646WU4GA4)",
+      "provisioningProfile": "./certs/mas-mentat-local-studio.provisionprofile",
+      "entitlements": "entitlements.mas.plist",
+      "entitlementsInherit": "entitlements.mas.inherit.plist"
+    },
+    "win": {
+      "icon": "icon.png",
+      "target": [
+        "msi"
+      ]
+    },
+    "msi": {
+      "artifactName": "mentat-local-studio-${version}.msi"
+    },
+    "linux": {
+      "icon": "icon.png",
+      "target": [
+        "deb"
+      ],
+      "category": "Graphics"
+    }
+  },
+  "productName": "ai-mentat-local-studio"
+}

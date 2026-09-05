@@ -1,0 +1,23 @@
+{
+  "updatesRepoUrl": "",
+  "butlerApiKeyEnvVar": "BUTLER_API_KEY",
+  "apps": {
+    "mentat-local-studio": {
+      "dir": ".",
+      "productName": "Hexstack Mentat Local Studio",
+      "itchIo": {
+        "user": "hexstack-app",
+        "game": "mentat-local-studio",
+        "channels": {
+          "mac": "osx",
+          "win": "windows",
+          "linux": "linux"
+        }
+      },
+      "updatesRepo": {
+        "subdir": "mentat-local-studio",
+        "feedUrl": ""
+      }
+    }
+  }
+}
